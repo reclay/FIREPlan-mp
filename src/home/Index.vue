@@ -146,11 +146,16 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .my-form {
     max-width: 670px;
 }
 .detail-table {
     width: 300px;
+}
+p {
+    color: #34495e;
+    font-size: 14px;
+    line-height: 26px;
 }
 </style>

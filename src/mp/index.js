@@ -5,13 +5,17 @@ import App from "../App.vue";
 import store from "../store";
 // import indexComp from '../home/index.vue'
 // import indexComp from '../home/indexKb.vue'
-import indexComp from "../home/indexMint.vue";
+// import indexComp from "../home/indexMint.vue";
+import indexComp from '../home/indexVant.vue'
 
 // import KboneUI from 'kbone-ui'
 // import 'kbone-ui/lib/weui/weui.css'
 
-import MintUI from "mint-ui";
-import "mint-ui/lib/style.css";
+// import MintUI from "mint-ui";
+// import "mint-ui/lib/style.css";
+
+import Vant from 'vant';
+import 'vant/lib/index.css';
 
 Vue.use(Router);
 
@@ -37,7 +41,8 @@ export default function createApp() {
 
   Vue.config.productionTip = false;
   //   Vue.use(KboneUI);
-  Vue.use(MintUI);
+  // Vue.use(MintUI);
+  Vue.use(Vant);
 
   sync(store, router);
 

@@ -11,8 +11,12 @@ import { sync } from 'vuex-router-sync'
 // import 'mint-ui/lib/style.css'
 // Vue.use(MintUI)
 
-import { XInput } from 'vux'
-Vue.component('x-input', XInput)
+// import { XInput } from 'vux'
+// Vue.component('x-input', XInput)
+
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
 
 Vue.config.productionTip = false
 

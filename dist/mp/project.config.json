@@ -26,8 +26,8 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.0",
-	"appid": "",
-	"projectname": "kbone-template-vue",
+	"appid": "wxab6214b3deb2d4d4",
+	"projectname": "FIREPlan",
 	"debugOptions": {
 		"hidedInDevtools": [
 			{

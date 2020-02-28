@@ -1,8 +1,7 @@
 const path = require('path')
 const eslintFriendlyFormatter = require('eslint-friendly-formatter')
-const vuxLoader = require('vux-loader')
 
-module.exports = vuxLoader.merge({
+module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: path.resolve(__dirname, '../src/main.js'),
@@ -104,6 +103,4 @@ module.exports = vuxLoader.merge({
     // 避免 webpack 注入不必要的 setImmediate polyfill 因为 Vue 已经将其包含在内
     setImmediate: false,
   },
-}, {
-  plugins: ['vux-ui']
-})
+}

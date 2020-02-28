@@ -1,1 +1,1 @@
-.my-form{max-width:670px}.detail-table{width:300px}
+.my-form{max-width:670px}.detail-table,.h5-p{color:#34495e;font-size:14px;line-height:26px}.detail-table{text-align:center;line-height:40px}

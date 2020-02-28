@@ -4,19 +4,51 @@
             <br>
             <!-- 根据结余率计算财务自由时间见：<a href="./goal.html">财务自由时间计算器</a> -->
         </p>
-        <x-input title="当前储蓄" v-model="currentSavings" type="number"></x-input>
-        <!-- <mt-field label="当前储蓄" v-model="currentSavings" type="number"></mt-field>
-        <mt-field label="税后月薪" v-model="monthPay" type="number"></mt-field>
-        <mt-field label="房租" v-model="rent" type="number"></mt-field>
-        <mt-field label="消费" v-model="consume" type="number"></mt-field>
-        <mt-field label="每月储蓄" v-model="consume" type="number"></mt-field> -->
+        <van-form label-width="100px" class="my-form">
+            <van-field v-model="currentSavings" label="当前储蓄" type="number" />
+            <van-field v-model="monthPay" label="税后月薪" type="number" />
+            <van-field v-model="rent" label="房租" type="number" />
+            <van-field v-model="consume" label="消费" type="number" />
+            <van-cell title="每月储蓄" :value="monthSavings" />
+            <van-cell center title="十年">
+                <van-switch v-model="isTen" />
+            </van-cell>
+            <van-date v-model="startDate" title="开始时间"></van-date>
+            <van-date v-if="isTen" v-model="endDateTen" title="结束时间"></van-date>
+            <van-date v-else v-model="endDate" title="结束时间"></van-date>
+            <van-field v-model="annualRate" label="年化 %" type="number" />
+            <van-cell title="到期储蓄" :value="endSavings" />
+            <van-cell center title="显示详情">
+                <van-switch v-model="showDetail" />
+            </van-cell>
+            <van-list v-show="showDetail"
+                class="detail-table">
+                <van-divider :style="tableDividerStyle" />
+                <van-row>
+                    <van-col span="12">时间</van-col>
+                    <van-col span="12">预期资产</van-col>
+                    <!-- <van-col span="8">总和</van-col> -->
+                    <van-divider :style="tableDividerStyle" />
+                </van-row>
+                <van-row v-for="item in allSavings" :key="item.date">
+                    <van-col span="12">{{item.date}}</van-col>
+                    <van-col span="12">{{getRoundVal(item.value)}}</van-col>
+                    <!-- <van-col span="8">{{getRoundVal(item.value + item.accuFund)}}</van-col> -->
+                    <van-divider :style="tableDividerStyle"/>
+                </van-row>
+            </van-list>
+        </van-form>
     </div>
 </template>
 
 <script>
 import moment from 'moment';
 import _ from 'lodash';
+import vanDate from './vanDate';
 export default {
+    components: {
+        vanDate
+    },
     data() {
         return {
             currentSavings: 0,
@@ -28,10 +60,16 @@ export default {
             endDateTen: '2029-04-01',
             isTen: true,
             annualRate: 10,
-            showDetail: true,
+            showDetail: false,
             moment,
             monthAccuFund: 0,
-            currAccuFund: 0
+            currAccuFund: 0,
+            tableDividerStyle: {
+                borderColor: '#969799',
+                width: '100%',
+                lineHeight: '1px',
+                margin: 0
+            }
         };
     },
     computed: {
@@ -99,7 +137,15 @@ export default {
 .my-form {
     max-width: 670px;
 }
+
+.detail-table, p {
+    color: #34495e;
+    font-size: 14px;
+    line-height: 26px;
+}
+
 .detail-table {
-    width: 300px;
+    text-align: center;
+    line-height: 40px;
 }
 </style>

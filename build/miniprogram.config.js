@@ -6,15 +6,6 @@ module.exports = {
     origin: 'https://test.miniprogram.com',
     entry: '/',
     router: {
-        home: [
-            '/(home|index)?',
-            '/index.html',
-            '/test/(home|index)',
-        ],
-        other: [
-            '/test/list/:id',
-            '/test/detail/:id',
-        ],
     },
     redirect: {
         notFound: 'home',
@@ -26,7 +17,7 @@ module.exports = {
     app: {
         backgroundTextStyle: 'dark',
         navigationBarTextStyle: 'white',
-        navigationBarTitleText: 'kbone',
+        navigationBarTitleText: '储蓄目标计算器',
     },
 	appExtraConfig: {
         sitemapLocation: 'sitemap.json',

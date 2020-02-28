@@ -1,32 +1,7 @@
 module.exports = {
 	"origin": "https://test.miniprogram.com",
 	"entry": "/",
-	"router": {
-		"home": [
-			{
-				"regexp": "^(?:\\/(home|index))?(?:\\/)?$",
-				"options": "i"
-			},
-			{
-				"regexp": "^\\/index\\.html(?:\\/)?$",
-				"options": "i"
-			},
-			{
-				"regexp": "^\\/test\\/(home|index)(?:\\/)?$",
-				"options": "i"
-			}
-		],
-		"other": [
-			{
-				"regexp": "^\\/test\\/list\\/([^\\/]+?)(?:\\/)?$",
-				"options": "i"
-			},
-			{
-				"regexp": "^\\/test\\/detail\\/([^\\/]+?)(?:\\/)?$",
-				"options": "i"
-			}
-		]
-	},
+	"router": {},
 	"runtime": {
 		"subpackagesMap": {},
 		"tabBarMap": {},
