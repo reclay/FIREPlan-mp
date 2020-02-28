@@ -9,11 +9,12 @@ const MpPlugin = require('mp-webpack-plugin') // 用于构建小程序代码的 
 const stylehacks = require('stylehacks')
 const autoprefixer = require('autoprefixer')
 const mpPluginConfig = require('./miniprogram.config.js') // 插件配置
+const vuxLoader = require('vux-loader')
 
 const isDevelop = process.env.NODE_ENV === 'development'
 const isOptimize = true // 是否压缩业务代码，开发者工具可能无法完美支持业务代码使用到的 es 特性，建议自己做代码压缩
 
-module.exports = {
+module.exports = vuxLoader.merge({
   mode: 'production',
   entry: {
     // js 入口
@@ -202,4 +203,6 @@ module.exports = {
     new VueLoaderPlugin(),
     new MpPlugin(mpPluginConfig),
   ],
-}
+}, {
+  plugins: ['vux-ui']
+})

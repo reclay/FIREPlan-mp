@@ -3,12 +3,18 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// import KboneUI from 'kbone-ui'
+// import 'kbone-ui/lib/weui/weui.css'
+// Vue.use(KboneUI)
+
+// import MintUI from 'mint-ui'
+// import 'mint-ui/lib/style.css'
+// Vue.use(MintUI)
+
+import { XInput } from 'vux'
+Vue.component('x-input', XInput)
 
 Vue.config.productionTip = false
-
-Vue.use(ElementUI);
 
 sync(store, router)
 

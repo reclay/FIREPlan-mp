@@ -49,7 +49,7 @@ module.exports = {
 		attrValueReduce: 5000,
 	},
     projectConfig: {
-        projectname: 'kbone-template-vue',
-        appid: '',
+        projectname: 'FIREPlan',
+        appid: 'wxab6214b3deb2d4d4',
     },
 }

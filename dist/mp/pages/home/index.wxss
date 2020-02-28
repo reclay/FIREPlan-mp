@@ -1,2 +1,3 @@
 page { background-color: #F7F7F7; }
+@import "../../common/vendors~home.wxss";
 @import "../../common/home.wxss";
