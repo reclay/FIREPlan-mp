@@ -1,5 +1,5 @@
 {
-  "name": "vue-kbone",
+  "name": "FIREPlan",
   "version": "0.0.1",
   "description": "",
   "author": "wechat-miniprogram",
@@ -8,6 +8,7 @@
     "kbone",
     "mp"
   ],
+  "appId": "wxab6214b3deb2d4d4",
   "scripts": {
     "start": "npm run mp",
     "web": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.config.js",
