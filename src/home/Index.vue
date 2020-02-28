@@ -1,88 +1,156 @@
 <template>
-  <div class="cnt">
-    <Header></Header>
-    <div>
-      <a href="/test/list/321">当前页跳转</a>
-      <a href="/test/detail/123" target="_blank">新开页面跳转</a>
-      <button @click="onClickJump">当前页跳转</button>
-      <button @click="onClickOpen">新开页面跳转</button>
+  <div>
+        <p>根据储蓄情况、投资时间及年化计算最终资产
+            <br>
+            根据结余率计算财务自由时间见：<a href="./goal.html">财务自由时间计算器</a>
+        </p>
+        <el-form label-width="100px" inline class="my-form">
+            <el-form-item label="当前储蓄">
+                <el-input-number v-model="currentSavings" :controls="false"></el-input-number>
+            </el-form-item>
+            <el-form-item label="税后月薪">
+                <el-input-number v-model="monthPay" :controls="false"></el-input-number>
+            </el-form-item>
+            <el-form-item label="房租">
+                <el-input-number v-model="rent" :controls="false"></el-input-number>
+            </el-form-item>
+            <el-form-item label="消费">
+                <el-input-number v-model="consume" :controls="false"></el-input-number>
+            </el-form-item>
+            <el-form-item label="每月储蓄">
+                <span>{{monthSavings}}</span>
+            </el-form-item>
+            <div></div>
+            <el-form-item label="十年">
+                <el-switch v-model="isTen"></el-switch>
+            </el-form-item>
+            <div></div>
+            <el-form-item label="开始时间">
+                <el-date-picker type="date" v-model="startDate"></el-date-picker>
+            </el-form-item>
+            <el-form-item label="结束时间">
+                <el-date-picker v-if="isTen" type="date" v-model="endDateTen"></el-date-picker>
+                <el-date-picker v-else type="date" v-model="endDate"></el-date-picker>
+            </el-form-item>
+            <el-form-item label="年化 %">
+                <el-input-number v-model="annualRate" :controls="false"></el-input-number>
+            </el-form-item>
+            <div></div>
+            <el-form-item label="到期储蓄">
+                <span>{{endSavings}}</span>
+            </el-form-item>
+            <div></div>
+        </el-form>
+        <el-switch v-model="showDetail" inactive-text="显示详情"></el-switch>
+        <div v-show="showDetail" class="detail-table">
+            <el-table :data="allSavings" height="300px" size="mini">
+                <el-table-column label="时间" width="100px">
+                    <template slot-scope="scope">
+                        <p>{{moment(scope.row.date).format('YYYY-MM-DD')}}</p>
+                    </template>
+                </el-table-column>
+                <el-table-column label="预期资产" width="100px">
+                    <template slot-scope="scope">
+                        <p>{{getRoundVal(scope.row.value)}}</p>
+                    </template>
+                </el-table-column>
+                <el-table-column label="总和" width="100px">
+                    <template slot-scope="scope">
+                        <p>{{getRoundVal(scope.row.value + scope.row.accuFund)}}</p>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
     </div>
-    <!-- vue-improve-loader -->
-    <div check-reduce>
-      <p>这段话不会在小程序里显示</p>
-      <p>在构建的时候就会被 vue-improve-loader 给干掉了</p>
-    </div>
-    <!-- reduce-loader -->
-    <Web>
-      <p>这段话也不会在小程序里显示</p>
-      <p>在构建的时候就会被 reduce-loader 给干掉了</p>
-    </Web>
-    <!-- 样式隐藏 -->
-    <div class="for-web">
-      <p>这段话也不会在小程序里显示</p>
-      <p>在渲染时会被样式隐藏</p>
-    </div>
-    <Footer></Footer>
-  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import Header from '../common/Header.vue'
-import Footer from '../common/Footer.vue'
-import Web from 'reduce-loader!../common/Web.vue'
-import 'reduce-loader!./web'
-
-export default Vue.extend({
-  name: 'Home',
-  components: {
-    Header,
-    Footer,
-    Web,
-  },
-  created() {
-    window.addEventListener('wxload', query => console.log('page1 wxload', query))
-    window.addEventListener('wxshow', () => console.log('page1 wxshow'))
-    window.addEventListener('wxready', () => console.log('page1 wxready'))
-    window.addEventListener('wxhide', () => console.log('page1 wxhide'))
-    window.addEventListener('wxunload', () => console.log('page1 wxunload'))
-
-    if (process.env.isMiniprogram) {
-      console.log('I am in miniprogram')
-    } else {
-      console.log('I am in Web')
+import moment from 'moment';
+import _ from 'lodash';
+export default {
+    data() {
+        return {
+            currentSavings: 0,
+            monthPay: 5000,
+            rent: 0,
+            consume: 0,
+            startDate: '2019-04-01',
+            endDate: '2024-04-01',
+            endDateTen: '2029-04-01',
+            isTen: true,
+            annualRate: 10,
+            showDetail: true,
+            moment,
+            monthAccuFund: 0,
+            currAccuFund: 0
+        };
+    },
+    computed: {
+        monthSavings() {
+            return this.monthPay - this.rent - this.consume;
+        },
+        innerDate() {
+            return this.isTen ? this.endDateTen : this.endDate;
+        },
+        allSavings() {
+            let savings = [{
+                date: this.startDate,
+                value: this.currentSavings,
+                accuFund: this.currAccuFund
+            }];
+            let format = 'YYYY-MM-DD';
+            let startDate = moment(this.startDate);
+            startDate = startDate.add(1, 'M');
+            let endDate = moment(this.innerDate).add(1, 'd');
+            while (moment.max(startDate, endDate).format(format) !== startDate.format(format)) {
+                let lastItem = savings[savings.length - 1];
+                let lastSavings = lastItem.value;
+                let lastAccuFund = lastItem.accuFund;
+                let currSavings = lastSavings * (1 + this.monthRate) + this.monthSavings;
+                let currAccuFund = lastAccuFund + this.monthAccuFund;
+                savings.push({
+                    date: startDate.format(format),
+                    value: currSavings,
+                    accuFund: currAccuFund
+                });
+                startDate = startDate.add(1, 'M');
+            }
+            return savings;
+        },
+        endSavings() {
+            let allSavings = this.allSavings;
+            return _.round(allSavings[allSavings.length - 1].value, 2);
+        },
+        endAccuFund() {
+            let allSavings = this.allSavings;
+            return allSavings[allSavings.length - 1].accuFund;
+        },
+        monthRate() {
+            return Math.pow((1 + this.annualRate / 100), 1 / 12) - 1;
+        },
+        jobSavings() {
+            return this.monthSavings * (this.allSavings.length - 1);
+        },
+        originSavings() {
+            return this.currentSavings + this.jobSavings;
+        },
+        profits() {
+            return this.getRoundVal(this.endSavings - this.originSavings);
+        }
+    },
+    methods: {
+        getRoundVal(val) {
+            return _.round(val, 2);
+        }
     }
-  },
-  methods: {
-    onClickJump() {
-      window.location.href = '/test/list/123'
-    },
-
-    onClickOpen() {
-      window.open('/test/detail/123')
-    },
-  },
-})
+}
 </script>
 
 <style lang="less">
-.cnt {
-  margin-top: 20px;
+.my-form {
+    max-width: 670px;
 }
-
-a, button {
-  display: block;
-  width: 100%;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  font-size: 20px;
-  border: 1px solid #ddd;
-}
-
-.miniprogram-root {
-  .for-web {
-    display: none;
-  }
+.detail-table {
+    width: 300px;
 }
 </style>
