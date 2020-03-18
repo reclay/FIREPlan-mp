@@ -159,6 +159,15 @@
     active-mode="{{activeMode}}"
     bindactiveend="onProgressActiveEnd"
 ></progress>
+<rich-text
+    wx:elif="{{wxCompName === 'rich-text'}}"
+    id="{{id}}"
+    class="{{class}}"
+    style="{{style}}"
+    hidden="{{hidden}}"
+    nodes="{{nodes}}"
+    space="{{space}}"
+></rich-text>
 <text
     wx:elif="{{wxCompName === 'text'}}"
     id="{{id}}"
@@ -586,10 +595,10 @@
     type="{{type}}"
     canvas-id="{{canvasId}}"
     disable-scroll="{{disableScroll}}"
-    bindtouchstart="onTouchStart"
-    bindtouchmove="onTouchMove"
-    bindtouchend="onTouchEnd"
-    bindtouchcancel="onTouchCancel"
+    bindtouchstart="onCanvasTouchStart"
+    bindtouchmove="onCanvasTouchMove"
+    bindtouchend="onCanvasTouchEnd"
+    bindtouchcancel="onCanvasTouchCancel"
     bindlongtap="onCanvasLongTap"
     binderror="onCanvasError"
 ><template is="subtree-cover" data="{{childNodes: innerChildNodes}}"/></canvas>

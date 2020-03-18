@@ -9,6 +9,7 @@
                 :type="type"
                 :min-date="minDate"
                 :max-date="maxDate"
+                :formatter="formatter"
                 @cancel="show = false"
                 @confirm="handleConfirm"
                 />
@@ -75,6 +76,9 @@ export default {
         handleConfirm(val) {
             this.show = false;
             this.$emit('input', moment(val).format(defaultFormat));
+        },
+        formatter(type, val) {
+            return val;
         }
     }
 }

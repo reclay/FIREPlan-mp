@@ -14,8 +14,20 @@ import indexComp from '../home/indexVant.vue'
 // import MintUI from "mint-ui";
 // import "mint-ui/lib/style.css";
 
-import Vant from 'vant';
-import 'vant/lib/index.css';
+// import Vant from 'vant';
+// import 'vant/lib/index.css';
+
+import Cell from 'vant/lib/cell';
+import Form from 'vant/lib/form';
+import Field from 'vant/lib/field';
+import RadioGroup from 'vant/lib/radio-group';
+import Radio from 'vant/lib/radio';
+
+import 'vant/lib/cell/style';
+import 'vant/lib/form/style';
+import 'vant/lib/field/style';
+import 'vant/lib/radio-group/style';
+import 'vant/lib/radio/style';
 
 Vue.use(Router);
 
@@ -42,7 +54,12 @@ export default function createApp() {
   Vue.config.productionTip = false;
   //   Vue.use(KboneUI);
   // Vue.use(MintUI);
-  Vue.use(Vant);
+  // Vue.use(Vant);
+  Vue.use(Cell);
+  Vue.use(Form);
+  Vue.use(Field);
+  Vue.use(RadioGroup);
+  Vue.use(Radio);
 
   sync(store, router);
 
